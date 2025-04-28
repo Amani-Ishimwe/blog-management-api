@@ -8,7 +8,7 @@ const getAllBlogs = (req, res) => {
     Blog.find()
       .sort({ createdAt: -1 })  // Fixed casing
       .then((blogs) => {
-        res.render('index', { 
+        res.render('users', { 
           title: 'All Blogs', 
           blogs: blogs 
         });
