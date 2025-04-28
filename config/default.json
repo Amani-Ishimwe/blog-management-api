@@ -1,0 +1,5 @@
+{
+    "port":3000,
+    "MongoURI":"mongodb+srv://amani:Tequiero%402024@node-learning.7kjpg.mongodb.net/blog-management?retryWrites=true&w=majority&appName=node-learning",
+    "jwtsecret":"tequiero2025"
+}
