@@ -235,6 +235,69 @@
                 "404":{"description":"Blog not found"},
                 "500":{"description":"Internal Server Error"}
                 }
+            },
+            "put":{
+                "summary":"Update A Course (Only Done By The Owner",
+                "tags":["Blogs"],
+                "security":[{"bearerAuth":[]}],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "required":true,
+                        "schema":{"type":"string"}
+                    }
+                ],
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":"#/components/schemas/BlogCreate"
+                        }
+                    }
+                },
+                "responses":{
+                   "200":{
+                    "description":"Blog Updated",
+                    "content":{
+                        "application/json":{
+                            "schema":{"$ref":"#/components/schemas/Blog"}
+                          }
+                       }
+                   },
+                   "404":{"description":"Blog not found"},
+                   "500":{"description":"Internal Server Error"}
+                }
+            },
+            "delete":{
+                "summary": "Delete A Blog (Only Done By The Owner)",
+                "tags": ["Blogs"],
+                "security": [{ "bearerAuth": [] }],
+                "parameters": [
+                  {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "schema": { "type": "string" }
+                 }
+               ],
+                "responses": {
+                   "200": {
+                      "description": "Blog deleted",
+                         "content": {
+                           "application/json": {
+                             "schema": {
+                               "type": "object",
+                               "properties": {
+                               "message": { "type": "string" }
+                            }
+                        } 
+                    }
+                }
+            },
+              "404": { "description": "Blog not found" },
+              "500": { "description": "Server error" }
+            }   
             }
         } 
     }
