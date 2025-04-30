@@ -1,24 +1,25 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const roleSchema = new Schema ({
-    roleName:{
+    name:{
         type:String,
-        enum:{
-            values:['Admin','User'],
-            message:'{VALUE} is not a valid role'
-        },
-        required:[true,'Role name is required'],
-        unique:true
+        required:true,
+        unique:true,
+        enum:['admin','moderator','user'],
+        default:'user'
     },
-    description:{
-        type:String,
-        required:[true,'Description is required'],
-        trim:true
+    permissions:{
+        type:[String],
+        required:true,
+        enum:[
+            'create_blog',
+            'delete_blog',
+            'delete_any_blog',
+            'edit_any_blog',
+            'manage_roles'
+        ],
+        default:['create_blog']
     }
-},{
-    timestamps:true,
-    toJSON:{virtuals:true},
-    toObject:{virtuals:true}
 })
 const Role = mongoose.model('Role',roleSchema)
 module.exports = Role

@@ -1,11 +1,14 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const routes = require('./routes/blog-routes')
 const connectDB = require('./config/db')
 const debug = require('debug')('app:server')
 const config = require('config')
-const Blog = require('./models/blog-model')
+const blogRoutes = require('./routes/blog-routes')
+const roleRoutes = require('./routes/role-routes')
+const userRoutes = require('./routes/user-routes')
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger/swagger.json')
 
 const app = express()
 app.use(express.urlencoded({extended:true}))
@@ -15,9 +18,12 @@ app.set('view engine','ejs')
 app.use(express.json());
 app.use(morgan('dev'));
 
-app.use(routes)
+//routes
 
-
+app.use('/api/user',userRoutes)
+app.use('/api/role',roleRoutes) 
+app.use('/api/blog',blogRoutes)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 const startServer = async ()=>{
     try{
@@ -32,3 +38,5 @@ const startServer = async ()=>{
     }
 }
 startServer();
+
+module.exports = app

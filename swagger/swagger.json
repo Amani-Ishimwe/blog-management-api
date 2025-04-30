@@ -1,0 +1,242 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Blog Management API",
+      "version": "1.0.0",
+      "description": "A Blog Management API that allows users manage blogs"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000"
+      }
+    ],
+    "paths":{
+        "/user/register":{
+            "post":{
+                "summary":"Register a new user",
+                "tags":["User"],
+                "security":[{"bearerAuth":[]}],
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                              "$ref":"#/components/schemas/UserRegister"
+                             }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description":"User registered successfully",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "token":{"type":"string"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{"description":"Validation error"},
+                    "500":{"description":"Internal Server Error"}
+                }
+            }
+        },
+        "/user/login":{
+            "post":{
+                "summary":"Login a user",
+                "tags":["User"],
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "username":{"type":"string"},
+                                    "password":{"type":"string"}
+                                },
+                                "required":["username","password"]
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Successful login",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "token":{"type":"string"},
+                                        "role":{"type":"string","enum":["admin","user","moderator"]}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{"description":"Validation error"},
+                    "500":{"description":"Internal Server Error"}
+                }
+            }
+        },
+        "/user/profile":{
+            "get":{
+                "summary":"Get user profile",
+                "tags":["User"],
+                "security":[{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description":"User profile retrival",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "username":{"type":"string"},
+                                        "email":{"type":"string"},
+                                        "role":{"type":"string","enum":["admin","user","moderator"]}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500":{"description":"Internal Server Error"}
+                }
+            }
+        },
+        "/user":{
+            "get":{
+                "summary":"Get all users",
+                "tags":["User"],
+                "security":[{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description":"List of all users",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"array",
+                                    "items":{"$ref":"#/components/schemas/User"}
+                                }
+                            }
+                        }
+                    },
+                    "401": { "description": "Unauthorized" },
+                    "500": { "description": "Server error" }    
+                }
+            }
+        },
+        "/user/assign-role": {
+              "post": {
+                   "summary": "Assign role to user (Admin only)",
+                   "description": "Allows administrators to change user roles. Requires admin privileges.",
+                   "tags": ["User"],
+                   "security": [{ "bearerAuth": [] }],
+                   "requestBody": {
+                      "required": true,
+                          "content": {
+                             "application/json": {
+                                "schema": {
+                                  "$ref": "#/components/schemas/RoleAssignment"
+                               },
+                                "example": {
+                                   "userId": "507f1f77bcf86cd799439011",
+                                   "roleId": "64d21b4667d0d8992e610c85"
+                                }
+                            } 
+                        }
+                   },
+                    "responses": {
+                        "200": {
+                          "description": "Role assigned successfully",
+                          "content": {
+                            "application/json": {
+                               "schema": {
+                                  "$ref": "#/components/schemas/User"
+                             }
+                         }
+                    }
+               },
+               "401": { "description": "Unauthorized" },
+               "500": { "description": "Server error" }
+               }
+           } 
+        },
+        "/blog":{
+           "get":{
+              "summary":"Get All Blogs",
+              "tags":["Blogs"],
+              "responses":{
+                "200":{
+                    "description":"List of Blogs",
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type":"array",
+                                "items":{"$ref":"#/components/schemas/Blog"}
+                            }
+                        }
+                    }
+                },
+                "500": { "description": "Server error" }
+              }
+           },
+           "post":{
+            "summary":"Create A New Blog",
+            "tags":["Blogs"],
+            "security":[{"bearerAuth":[]}],
+            "requestBody":{
+                "required":true,
+                "content":{
+                    "application/json":{
+                        "schema":"#/components/schemas/BlogCreate"
+                    }
+                }
+            },
+            "responses": {
+                "201":{
+                    "description":"Blog Created",
+                    "content": {
+                        "application/json":{
+                            "schema":{"$ref":"#/components/schemas/Blog"}
+                        }
+                    }
+                },
+                "500":{"description":"Internal Server Error"}
+            }
+        }
+        },
+        "/blog/{id}": {
+            "get":{
+                "summary":"Get A Blog By Id",
+                "tags":["Blogs"],
+                "parameters": [
+                    {
+                     "name":"id",
+                     "in":"path",
+                     "required":true ,
+                     "schema":{"type":"string"}
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Blog Details",
+                        "content":{
+                            "application/json":{
+                                "schema":{"$ref":"#/components/schemas/Blog"}
+                            }
+                        }
+                    },
+                "404":{"description":"Blog not found"},
+                "500":{"description":"Internal Server Error"}
+                }
+            }
+        } 
+    }
+}
+        

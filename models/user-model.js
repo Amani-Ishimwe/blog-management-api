@@ -1,13 +1,16 @@
 const mongoose = require('mongoose')
+const Role = require('./role-model')
 const Schema = mongoose.Schema;
 const userSchema = new Schema ({
     username:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     email:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     password:{
         type:String,
@@ -15,8 +18,9 @@ const userSchema = new Schema ({
     },
     role: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'UserRole',
-        required: [true, 'Role is required']
+        ref: 'Role',
+        required: [true, 'Role is required'],
+        default:'user'
       }
 })
 
