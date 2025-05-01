@@ -3,10 +3,10 @@ const router = express.Router()
 const roleController = require('../controllers/role-controller')
 const check = require('../utils/checkPermission');
 const auth = require('../middleware/auth')
+const admin = require('../middleware/admin')
 
-router.post('/',auth, check.checkPermission('manage_roles'),roleController.createRole)
-router.post('/assign',auth, check.checkPermission('manage_roles'),roleController.assignRole)
-router.get('/',auth,check.checkPermission('manage_roles'),roleController.getRoles)
+router.post('/',auth,admin,roleController.createRole)
+router.get('/',auth,admin,roleController.getRoles)
 
 
 module.exports = router

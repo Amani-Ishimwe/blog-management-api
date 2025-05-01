@@ -9,9 +9,9 @@ router.get('/:id', blogControllers.getBlogById);
 
 // Protected routes (require auth + ownership)
 router.post('/', auth,blogControllers.createBlog);
-router.post('/:blogId/comments', auth, blogControllers.addComment);
+router.post('/:blogId/comments', blogControllers.addComment);
 router.post('/:blogId/like', auth, blogControllers.toggleLike);
-router.put('/:id', auth, check.checkOwnership, blogControllers.updateBlog);
-router.delete('/:id', auth, check.checkOwnership, blogControllers.deleteBlog);
+router.put('/:id', auth,blogControllers.updateBlog);
+router.delete('/:id', auth, blogControllers.deleteBlog);
 
 module.exports = router ;

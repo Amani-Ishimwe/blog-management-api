@@ -25,20 +25,6 @@ exports.createRole = async (req,res)=>{
 }
 
 
-//assigning roles is for adming only
-exports.assignRole = async (req,res) =>{
-    try{
-        const {userId ,roleId} = req.body
-        const user = await User.findByIdAndUpdate(
-            UserId,
-            {role:roleId},
-            {new:true}
-        )
-        res.status(200).json(user)
-    }catch(error){
-        res.status(500).json({error:"Internal Server Error"})
-    }
-}
 
 //for admin only
 exports.getRoles = async (req,res) =>{

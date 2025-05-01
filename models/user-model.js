@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
-const Role = require('./role-model')
+const Role = require('./role-model');
+const { required } = require('joi');
 const Schema = mongoose.Schema;
 const userSchema = new Schema ({
     username:{
@@ -16,13 +17,11 @@ const userSchema = new Schema ({
         type:String,
         required:true
     },
-    role: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Role',
-        required: [true, 'Role is required'],
-        default:'user'
-      }
+    isAdmin: {
+        type: Boolean,
+        required: true
+    }
 })
 
-const User = mongoose.model('Admin',userSchema)
+const User = mongoose.model('user',userSchema)
 module.exports = User

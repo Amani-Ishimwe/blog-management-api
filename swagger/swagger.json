@@ -56,7 +56,7 @@
                             "schema":{
                                 "type":"object",
                                 "properties":{
-                                    "username":{"type":"string"},
+                                    "email":{"type":"string"},
                                     "password":{"type":"string"}
                                 },
                                 "required":["username","password"]
@@ -458,9 +458,7 @@
             "properties":{
              "title":{"type":"string"},
              "content":{"type":"string"},
-             "owner":{"type":"string","description":"Owner ID"},
-             "like":{"type":"array"},
-             "comment":{"type":"string", "description":"Comment ID"}
+             "owner":{"type":"string","description":"Owner ID"}
                }
             },
             "Comment": {

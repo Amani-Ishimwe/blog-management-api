@@ -4,20 +4,24 @@ const debug = require('debug')('app:db')
 
 const connectDB = async () =>{
     try{
-       const mongooseOptions ={
-            serverSelectionTimeoutMS:5000,
-            socketTimeoutMs:45000,
-            family:4
-        }
+    //    const mongooseOptions ={
+    //         serverSelectionTimeoutMS:5000,
+    //         socketTimeoutMs:45000,
+    //         family:4
+    //     }
 
-        await mongoose.connect(config.get('MongoURI'),mongooseOptions)
+
+        await mongoose.connect(config.get('MongoURI') )
         debug('Connected to DataBase')
 
 
+
         mongoose.connection.on('connected',()=>{
+            console.log("Connected to the database");
+            
             debug('Mongoose has been connected on DB')
         })
-        mongoose.connection.on('error',(err)=>{
+        mongoose.connection.on('error',(err)=>{     
             debug('Mongoose connection error:',err.message)
         })
         mongoose.connection.on('disconnected',()=>{
