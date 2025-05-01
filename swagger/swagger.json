@@ -298,8 +298,236 @@
               "404": { "description": "Blog not found" },
               "500": { "description": "Server error" }
             }   
+        }
+      },
+      "/blog/{id}/comments":{
+        "post":{
+            "summary": "Add a comment to a blog post",
+            "description":"Allows authenticated users to comment on a blog post",
+            "tags":["Blogs"],
+            "security":[{"bearerAuth":[]}],
+            "parameters":[
+                {
+                    "in":"path",
+                    "name":"blogId",
+                    "required":true,
+                    "schema":{
+                        "type":"string"
+                    },
+                    "description":"ID of the blog post to comment on"
+                }
+            ],
+            "requestBody": {
+                "required":true,
+                "content": {
+                    "application/json":{
+                        "schema":{
+                            "type":"object",
+                            "required":["content"],
+                            "properties":{
+                                "content":{
+                                    "type":"string",
+                                    "minLength":1,
+                                    "example":"This is a great post"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses":{
+               "201":{
+                "description":"Comment created successfully",
+                "content":{
+                    "application/json":{
+                        "schema":{
+                            "$ref":"#/components/schemas/Comment"
+                        }
+                     }
+                  }
+               },
+               "500": { "description": "Server error" } 
             }
-        } 
+        }
+      },
+      "/blogs/{blogId}/like": {
+         "post": {
+         "summary": "Toggle like on a blog post",
+         "description": "Allows authenticated users to like/unlike a blog post",
+         "tags": ["Blogs"],
+         "security": [{ "bearerAuth": [] }],
+         "parameters": [
+             {
+              "in": "path",
+              "name": "blogId",
+              "required": true,
+              "schema": {
+              "type": "string"
+            },
+              "description": "ID of the blog post to like/unlike"
+            }
+        ],
+         "responses": {
+            "200": {
+              "description": "Like status updated",
+              "content": {
+                 "application/json": {
+                   "schema": {
+                     "$ref": "#/components/schemas/Blog"
+                     }
+                 }
+              }
+          },
+           "404": { "description": "Blog post not found"},
+           "500": { "description": "Server error"}
+                   }
+              }
+         },
+          "/role":{
+            "post":{
+                "summmary":"Create a new role (Admin only)",
+                "tags":["Roles"],
+                "security":[{"bearerAuth":[]}],
+                "requestBody":{
+                    "required":true,
+                    "content":{
+                        "application/json":{
+                            "schema":{"$ref":"#/components/schemas/RoleCreate"}
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description":"Role Created",
+                        "content":{
+                            "application/json":{
+                                "schema":{"$ref":"#/components/schemas/Role"}
+                            }
+                        }
+                    }, 
+                    "400": { "description": "Validation error" },
+                    "403": { "description": "Admin access required" },
+                    "500": { "description": "Server error" }
+                }
+            },
+            "get":{
+                "summary":"Get All Roles",
+                "tags":["Roles"],
+                "security":[{"bearerAuth":[]}],
+                "responses":{
+                    "200":{
+                        "description":"List Of Roles",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"array",
+                                    "items":{"$ref":"#/components/schemas/Role"}
+                                }
+                            }
+                        }
+                    },
+                    "401": { "description": "Unauthorized" },
+                    "500": { "description": "Server error" }
+                }
+            }
+        }
+    },
+    "components":{
+        "schemas":{
+           "UserRegister":{
+            "type":"object",
+            "properties":{
+              "username":{"type":"string"},
+              "email":{"type":"string"},
+              "password":{"type":"string","minLength":6},
+              "role":{"type":"string","description":"Role Id"}
+            },
+            "required":["username","email","password","role"]
+           },
+           "User":{
+            "type":"object",
+            "properties":{
+                "_id":{"type":"string"},
+                "username":{"type":"string"},
+                "email":{"type":"string"},
+                "role":{"$ref":"#/components/schemas/Role"}
+              }
+           },
+           "BlogCreate":{
+            "type":"object",
+            "properties":{
+             "title":{"type":"string"},
+             "content":{"type":"string"},
+             "owner":{"type":"string","description":"Owner ID"},
+             "like":{"type":"array"},
+             "comment":{"type":"string", "description":"Comment ID"}
+               }
+            },
+            "Comment": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string"},
+                  "content": {"type": "string"},
+                  "author": {"$ref": "#/components/schemas/UserReference"},
+                  "blog": {"type": "string"},
+                  "createdAt": {"type": "string","format": "date-time"}
+                }
+              },
+              "Blog": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string"},
+                  "title": {"type": "string"},
+                  "content": {"type": "string"},
+                  "likes": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/UserReference"
+                    }
+                  }
+                }
+              },
+              "UserReference": {
+                "type": "object",
+                "properties": {
+                  "id": {"type": "string"},
+                  "username": {"type": "string"}
+                }
+            },
+             "RoleCreate": {
+               "type": "object",
+               "properties": {
+               "name": { "type": "string", "enum": ["admin", "user"] },
+               "permissions": { "type": "string" }
+               },
+                "required": ["name", "description"]
+            },
+             "Role": {
+             "type": "object",
+             "properties": {
+             "_id": { "type": "string" },
+             "name": { "type": "string", "enum": ["admin","moderator", "user"] },
+             "permissions": { "type": "string" }
+            }
+        }
+    },
+     "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT",
+          "description": "JWT Authorization header using the Bearer scheme"
+            }
+        }
     }
 }
-        
+
+
+
+
+
+
+
+
+
+
