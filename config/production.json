@@ -1,5 +1,5 @@
 {
     "port":8080,
     "jwtsecret": "amanifirstapp",
-    "mongoURI": "mongodb://localhost:27017/BlogManagement"
+    "mongoURI": "mongodb+srv://amani:Tequiero%402024@node-learning.7kjpg.mongodb.net/Blog_Management?retryWrites=true&w=majority&appName=node-learning"
   }
