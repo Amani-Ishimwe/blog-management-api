@@ -1,0 +1,1 @@
+This is a blog management API.Where users are in charge of their blogs and have no limitations to them and there is admin who gives roles to people and management the overall blog application.This is complete backend with no rendering a view 
