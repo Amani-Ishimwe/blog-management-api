@@ -17,7 +17,7 @@ const connectDB = async () =>{
 
 
         mongoose.connection.on('connected',()=>{
-            console.log("Connected to the database");
+            console.log("Connected to the database ");
             
             debug('Mongoose has been connected on DB')
         })
@@ -34,7 +34,7 @@ const connectDB = async () =>{
             process.exit(0)
         })
     }catch(err){
-        debug('Error connecting to MongoDB:', err.message)
+     console.log('Error connecting to MongoDB:', err.message)
         process.exit(1)
     }
 }  

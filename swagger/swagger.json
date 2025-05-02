@@ -440,7 +440,7 @@
               "username":{"type":"string"},
               "email":{"type":"string"},
               "password":{"type":"string","minLength":6},
-              "role":{"type":"string","description":"Role Id"}
+              "isAdmin":{"type":"boolean"}
             },
             "required":["username","email","password","role"]
            },
@@ -450,7 +450,7 @@
                 "_id":{"type":"string"},
                 "username":{"type":"string"},
                 "email":{"type":"string"},
-                "role":{"$ref":"#/components/schemas/Role"}
+                "isAdmin":{"type":"boolean"}
               }
            },
            "BlogCreate":{

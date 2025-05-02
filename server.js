@@ -28,7 +28,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 const startServer = async ()=>{
     try{
         await connectDB()
-        const server = app.listen(config.get('port'),()=>{
+        const server = app.listen(process.env.PORT || config.get('port'),()=>{
             debug(`Server is running on port ${config.get('port')}`)
         })
         return server
