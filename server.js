@@ -12,9 +12,6 @@ const swaggerDocument = require('./swagger/swagger.json')
 
 const app = express()
 app.use(express.urlencoded({extended:true}))
-app.use(express.static('public'))
-app.set('views',path.join(__dirname,'views'));
-app.set('view engine','ejs')
 app.use(express.json());
 app.use(morgan('dev'));
 

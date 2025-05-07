@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const Role = require('./role-model');
-const { required } = require('joi');
 const Schema = mongoose.Schema;
 const userSchema = new Schema ({
     username:{

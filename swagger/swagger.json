@@ -461,37 +461,99 @@
              "owner":{"type":"string","description":"Owner ID"}
                }
             },
-            "Comment": {
-                "type": "object",
-                "properties": {
-                  "id": {"type": "string"},
-                  "content": {"type": "string"},
-                  "author": {"$ref": "#/components/schemas/UserReference"},
-                  "blog": {"type": "string"},
-                  "createdAt": {"type": "string","format": "date-time"}
-                }
-              },
-              "Blog": {
-                "type": "object",
-                "properties": {
-                  "id": {"type": "string"},
-                  "title": {"type": "string"},
-                  "content": {"type": "string"},
-                  "likes": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/UserReference"
+                    "UserReference": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "507f1f77bcf86cd799439011"
+                        },
+                        "username": {
+                          "type": "string",
+                          "example": "john_doe"
+                        }
+                      }
+                    },
+                    "Comment": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "64a1b5c8e6f2e1023456789a"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "This is a great post!"
+                        },
+                        "author": {
+                          "$ref": "#/components/schemas/UserReference"
+                        },
+                        "blog": {
+                          "type": "string",
+                          "example": "64a1b5c8e6f2e1023456789b"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-07-01T12:00:00Z"
+                        }
+                      }
+                    },
+                    "Blog": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "example": "64a1b5c8e6f2e1023456789b"
+                        },
+                        "title": {
+                          "type": "string",
+                          "example": "My First Blog Post"
+                        },
+                        "content": {
+                          "type": "string",
+                          "example": "This is the content of my blog post"
+                        },
+                        "author": {
+                          "$ref": "#/components/schemas/UserReference"
+                        },
+                        "likes": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/UserReference"
+                          },
+                          "description": "Array of users who liked this blog",
+                          "example": [
+                            {
+                              "id": "507f1f77bcf86cd799439011",
+                              "username": "john_doe"
+                            },
+                            {
+                              "id": "507f1f77bcf86cd799439012",
+                              "username": "jane_doe"
+                            }
+                          ]
+                        },
+                        "comments": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Comment"
+                          },
+                          "description": "Array of comments on this blog"
+                        },
+                        "createdAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-06-30T09:00:00Z"
+                        },
+                        "updatedAt": {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2023-06-30T10:30:00Z"
+                        }
+                      }
                     }
-                  }
-                }
               },
-              "UserReference": {
-                "type": "object",
-                "properties": {
-                  "id": {"type": "string"},
-                  "username": {"type": "string"}
-                }
-            },
              "RoleCreate": {
                "type": "object",
                "properties": {
@@ -518,7 +580,7 @@
             }
         }
     }
-}
+
 
 
 

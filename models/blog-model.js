@@ -14,15 +14,14 @@ const blogSchema = new Schema ({
         ref:'User',
         required:[true, 'User is required']
     },
-    likes: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User' 
+    likes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
       }],
-    createdAt:{
-        type:Date,
-        default:Date.now
-    }
-
+      comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
+      }]
 })
 
 

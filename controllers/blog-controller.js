@@ -115,7 +115,7 @@ exports.deleteBlog = async (req, res) => {
 
     res.status(200).json({ message: 'Blog deleted successfully' });
   } catch (error) {
-    console.error(error);
+    console.error(error)
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
@@ -123,25 +123,31 @@ exports.deleteBlog = async (req, res) => {
 exports.addComment = async (req, res) => {
   try {
     const { content } = req.body;
+    const { blogId } = req.params;
+    const userId = req.user?._id; // Optional chaining for safety
 
-    // Ensure user is authenticated
-    /*if (!req.user || !req.user._id) {
-      return res.status(403).json({ message: 'Forbidden: Missing user information' });
-    }*/
+    // 1. Input Validation
+    if (!content || !content.trim()) {
+      return res.status(400).json({ message: 'Comment content is required' });
+    }
 
+    if (!userId) {
+      return res.status(403).json({ message: 'Forbidden: User not authenticated' });
+    }
+
+    // 2. Create and Save Comment
     const comment = new Comment({
-      content,
-      author: req.user._id,  // use _id
-      blog: req.params.blogId
+      content: content.trim(), // Trim whitespace
+      author: userId,
+      blog: blogId
     });
 
     await comment.save();
-    res.status(201).json(comment);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: 'Error adding comment', error: err.message });
+  }catch(error){
+    debug(error)
+    return res.status(500).json({message:"Error adding the comment"})
   }
-};
+}
 
 
 
