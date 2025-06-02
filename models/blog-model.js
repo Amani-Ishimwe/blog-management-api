@@ -1,30 +1,10 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema;
-const blogSchema = new Schema ({
-    title:{
-        type:String,
-        required:true
-    },
-    content:{
-        type:String,
-        required:true
-    },
-    owner:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:[true, 'User is required']
-    },
-    likes: [{
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-      }],
-      comments: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-      }]
-})
+const mongoose = require('mongoose');
 
+const blogSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+}, { timestamps: true });
 
-const Blog = mongoose.model('Blog',blogSchema)
-
-module.exports = Blog;
+module.exports = mongoose.model('Blog', blogSchema);

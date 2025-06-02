@@ -48,7 +48,7 @@ exports.register = async (req,res)=>{
         
 
             await user.save()
-            const token = jwt.sign({id:user._id,role: user.isAdmin },config.get('jwtsecret'),{expiresIn:'1h'})
+            const token = jwt.sign({id:user._id,role: user.isAdmin },config.get('jwtsecret'),{expiresIn:'12h'})
             return res.status(201).send({user: savedUser , token})
 
        }catch (err) {        
@@ -66,7 +66,7 @@ module.exports.login = async (req,res)=>{
      if(!user || !await bcrypt.compare(password,user.password)){
       return res.status(400).json({message:"Invalid credentials"})
      }
-      const token = jwt.sign({id:user._id,isAdmin: user.isAdmin},config.get('jwtsecret'),{expiresIn:'1h'})
+      const token = jwt.sign({id:user._id,isAdmin: user.isAdmin},config.get('jwtsecret'),{expiresIn:'12h'})
       res.status(200).json({ 
             token, 
             user: { 
