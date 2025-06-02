@@ -34,11 +34,6 @@ exports.register = async (req,res)=>{
         if(anotherUserExists){
           return res.status(409).json({message:'Username already taken'})
        }
-
-       console.log("reached here");
-
-
-        
          const hashedPassword = await bcrypt.hash(password,10)
          const user = new User({
             username,
