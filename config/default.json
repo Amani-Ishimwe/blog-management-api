@@ -1,5 +1,5 @@
 {
     "port":3000,
-    "MongoURI":"mongodb://localhost:27017/BlogManagement",
+    "MongoURI":"your db here",
     "jwtsecret":"tequiero2025"
 }
